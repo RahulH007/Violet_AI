@@ -51,10 +51,28 @@
     <div class="container">
         <h1>Prompt Interface</h1>
         <div class="input-area">
-            <textarea placeholder="Type your prompt here..."></textarea>
-            
-            <button>Submit</button>
+            <form method="post" id="prompt-form">
+                {% csrf_token %}
+                <textarea name="prompt" placeholder="Type your prompt here..."></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="response"></div>
         </div>
     </div>
+    <script>
+        document.getElementById('prompt-form').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch("{% url 'prompt_interface' %}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            });
+            const result = await response.json();
+            document.getElementById('response').innerText = result.response;
+        };
+    </script>
 </body>
 </html>

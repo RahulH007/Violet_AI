@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .DevHub import get_response  # Import the function from the converted script
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'ai_interface/index.html')
 
 def prompt_interface(request):
     if request.method == 'POST':

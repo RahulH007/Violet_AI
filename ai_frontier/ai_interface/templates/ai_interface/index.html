@@ -1,47 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Interface</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .container a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .container a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>AI Interface</title>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+   <style>
+       body {
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+           font-family: 'Inter', sans-serif;
+           background: linear-gradient(135deg, #000000, #1c1c1c, #2c3e50);
+           text-align: center;
+       }
+
+       h1 {
+           font-size: 48px;
+           font-weight: 500;
+           background: linear-gradient(90deg, #ec4899, #a855f7);
+           -webkit-background-clip: text;
+           background-clip: text;
+           -webkit-text-fill-color: transparent;
+           margin-bottom: 4px;
+       }
+
+       h2 {
+           font-size: 14px;
+           font-weight: 400;
+           color: white;
+           opacity: 0.9;
+           margin-bottom: 2px;
+           margin-top: 0;
+       }
+
+       p {
+           font-size: 14px;
+           color: white;
+           opacity: 0.9;
+           margin-bottom: 24px;
+           margin-top: 0;
+       }
+
+       .button-container {
+           display: flex;
+           justify-content: center;
+           gap: 10px;
+       }
+
+       .button {
+           padding: 10px 20px;
+           font-size: 16px;
+           color: white;
+           background: rgba(0, 123, 255, 0.8);
+           border: none;
+           border-radius: 5px;
+           text-decoration: none;
+           cursor: pointer;
+           transition: background-color 0.3s ease;
+       }
+
+       .button:hover {
+           background-color: rgba(0, 86, 179, 0.8);
+       }
+
+       .button.github {
+           background: rgba(110, 84, 148, 0.8);
+       }
+
+       .button.github:hover {
+           background-color: rgba(86, 61, 124, 0.8);
+       }
+   </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the AI Interface</h1>
-        <p>Click the button below to start using the AI prompt interface.</p>
-        <a href="{% url 'prompt_interface' %}">Go to Prompt Interface</a>
-    </div>
+   <h1 id="greeting"></h1>
+   <h2 id="sub-greeting"></h2>
+   <p>Let's build smarter, faster, and better with Generative AI!</p>
+   <div class="button-container">
+       <a href="{% url 'prompt_interface' %}" class="button">Chat</a>
+       <a href="https://github.com/Bramha-Bajannavar/AIFrontier" class="button github" target="_blank">Documentation</a>
+   </div>
+
+   <script>
+       function updateGreeting() {
+           const greetingElement = document.getElementById('greeting');
+           const subGreetingElement = document.getElementById('sub-greeting');
+           const now = new Date();
+           const hours = now.getHours();
+
+           if (hours < 12) {
+               greetingElement.textContent = "Good Morning, I'm Violet";
+               subGreetingElement.textContent = "your AI assistant for Generative AI development!";
+           } else {
+               greetingElement.textContent = "Good Afternoon, I'm Violet";
+               subGreetingElement.textContent = "your AI assistant for Generative AI development!";
+           }
+       }
+
+       updateGreeting();
+   </script>
 </body>
 </html>

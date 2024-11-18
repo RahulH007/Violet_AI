@@ -4,65 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompt Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: linear-gradient(135deg, #000000, #1c1c1c, #2c3e50);
+            text-align: center;
+            color: #f4f4f4;
         }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 600px;
+
+        h1 {
+            font-size: 48px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #ec4899, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
         }
-        .input-area {
-            display: flex;
-            flex-direction: column;
-        }
-        .input-area textarea {
+
+        .chat-container {
             width: 100%;
-            height: 100px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            max-width: 800px;
+            height: 60vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: left; /* Ensure messages are left-aligned */
         }
-        .input-area button {
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px; /* Increased spacing between messages */
+            line-height: 1.2; /* Reduced line spacing within messages */
+        }
+
+        .message .icon {
+            font-size: 16px; /* Smaller icon size */
+            margin-right: 10px;
+            margin-top: 3px; /* Align icon with the first line of text */
+        }
+
+        .user-message {
+            justify-content: flex-end;
+            margin-bottom: 40px; /* Increased spacing between user and AI messages */
+            font-family: 'Roboto', sans-serif; /* User message font */
+        }
+
+        .user-message .icon {
+            order: 2;
+            margin-left: 10px;
+            margin-right: 0;
+        }
+
+        .ai-message {
+            justify-content: flex-start;
+            margin-bottom: 40px; /* Increased spacing between user and AI messages */
+            font-family: 'JetBrains Mono', monospace; /* AI message font */
+            white-space: pre-wrap; /* Preserve whitespace and formatting */
+        }
+
+        form {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
             padding: 10px;
+            font-size: 16px;
             border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
+            border-radius: 5px 0 0 5px;
+            background: rgba(50, 50, 50, 0.8);
+            color: #f4f4f4;
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-        .input-area button:hover {
+
+        input[type="text"]::placeholder {
+            color: #ccc;
+        }
+
+        input[type="text"]:hover {
+            background: rgba(50, 50, 50, 1);
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background: #007bff;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
             background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button svg {
+            width: 20px;
+            height: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Prompt Interface</h1>
-        <div class="input-area">
-            <form method="post" id="prompt-form">
-                {% csrf_token %}
-                <textarea name="prompt" placeholder="Type your prompt here..."></textarea>
-                <button type="submit">Submit</button>
-            </form>
-            <div id="response"></div>
-        </div>
+    <h1>Chat with Violet</h1>
+    <div class="chat-container" id="chat-container">
+        <!-- Chat messages will be appended here -->
     </div>
+    <form id="prompt-form">
+        <input type="text" name="prompt" placeholder="Type your message here..." required>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <button type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+        </button>
+    </form>
+
     <script>
         document.getElementById('prompt-form').onsubmit = async function(event) {
             event.preventDefault();
             const formData = new FormData(this);
+            const userMessage = formData.get('prompt');
+            
+            // Append user message to chat
+            const chatContainer = document.getElementById('chat-container');
+            const userMessageElement = document.createElement('div');
+            userMessageElement.className = 'message user-message';
+            userMessageElement.innerHTML = `<i class="fas fa-user icon"></i> <span>${userMessage}</span>`;
+            chatContainer.appendChild(userMessageElement);
+
+            // Scroll to the bottom of the chat container
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
             const response = await fetch("{% url 'prompt_interface' %}", {
                 method: 'POST',
                 body: formData,
@@ -71,8 +174,27 @@
                 }
             });
             const result = await response.json();
-            document.getElementById('response').innerText = result.response;
+
+            // Append AI response to chat
+            const aiMessageElement = document.createElement('div');
+            aiMessageElement.className = 'message ai-message';
+            aiMessageElement.innerHTML = `<i class="fas fa-robot icon"></i> <span>${result.response}</span>`;
+            chatContainer.appendChild(aiMessageElement);
+
+            // Scroll to the bottom of the chat container
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Clear the input field
+            this.reset();
         };
+
+        // Allow pressing Enter to submit the form
+        document.querySelector('input[name="prompt"]').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('prompt-form').dispatchEvent(new Event('submit'));
+            }
+        });
     </script>
 </body>
 </html>

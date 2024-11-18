@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .DevHub import get_response  # Import the function from the converted script
+from .final import get_response  # Import the function from the converted script
 
 def index(request):
     return render(request, 'ai_interface/index.html')

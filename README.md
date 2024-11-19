@@ -1,6 +1,6 @@
 # VioletAI:Developer Tools for Generative AI
 
-DevHub is a platform that provides a suite of developer tools specifically designed for working with Generative AI models. It aims to streamline the development, testing, and deployment of AI-powered solutions by offering a range of utilities that assist with tasks such as prompt engineering, debugging, model comparison, and more.
+VioletAI is a platform that provides a suite of developer tools specifically designed for working with Generative AI models. It aims to streamline the development, testing, and deployment of AI-powered solutions by offering a range of utilities that assist with tasks such as prompt engineering, debugging, model comparison, and more.
 
 ## Features
 

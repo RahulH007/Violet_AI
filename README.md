@@ -19,3 +19,9 @@ VioletAI is a platform that provides a suite of developer tools specifically des
 ### 4. *Workflow Automation*
    - Seamlessly integrates Generative AI into your development pipeline.
    - Automates repetitive tasks, such as model fine-tuning or data preprocessing.
+
+To Run the Tool in your system
+   -Clone the repo
+   -Change directory to ai_frontier
+   -on terminal run "python manage.py runserver"
+   
